@@ -6,16 +6,23 @@ import cv2
 import numpy as np
 import face_recognition as fr
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Check if running on Windows and adjust the event loop policy
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-# Define your app ID and app secret (replace with actual values)
-app_id = ""
-app_secret = ""
+# Retrieve the app_id and app_secret from environment variables
+app_id = os.getenv("APP_ID")
+app_secret = os.getenv("APP_SECRET")
 
-
+# Check if app_id and app_secret were loaded successfully
+if not app_id or not app_secret:
+    print("Error: Please ensure APP_ID and APP_SECRET are set in the .env file.")
+    sys.exit(1)
+    
 
 # Path to the images folder
 images_path = "images"
