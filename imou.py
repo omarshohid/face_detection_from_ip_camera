@@ -7,6 +7,7 @@ import numpy as np
 import face_recognition as fr
 import os
 from dotenv import load_dotenv
+import threading
 
 load_dotenv()
 
@@ -22,7 +23,7 @@ app_secret = os.getenv("APP_SECRET")
 if not app_id or not app_secret:
     print("Error: Please ensure APP_ID and APP_SECRET are set in the .env file.")
     sys.exit(1)
-    
+
 
 # Path to the images folder
 images_path = "images"
@@ -80,7 +81,9 @@ async def get_all_devices():
                         if video_url:
                             print(f"Live Stream URL for Channel {channel['channelName']}: {video_url}")
                             # Display the video in a cv2 window
-                            display_video(video_url)
+                            # display_video(video_url)
+                            # Start a separate thread to display video
+                            threading.Thread(target=display_video, args=(video_url,)).start()
                         else:
                             print(f"No live stream URL found for Channel {channel['channelName']}.")
                     print('-' * 50)
